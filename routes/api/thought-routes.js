@@ -20,6 +20,4 @@ router
   .put(updateThought)
   .delete(deleteThought);
 
-// delete thought by id
-// router.route("/:thoughtId");
 module.exports = router;
