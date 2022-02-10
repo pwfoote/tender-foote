@@ -8,6 +8,10 @@ const userController = {
           path: "thoughts",
           select: "-__v",
         })
+        .populate({
+          path: 'friends',
+          select:"__V"
+        })
         .select("-__v")
         .sort({ _id: -1 })
         .then((dbUserData) => res.json(dbUserData))
@@ -64,13 +68,43 @@ const userController = {
     User.findOneAndDelete({ _id: params.id })
       .then((dbUserData) => {
         if (!dbUserData) {
-          res.status(404).json({ message: "no user found with this ID" });
+          res.status(404).json;
           return;
         }
         res.json(dbUserData);
       })
       .catch((err) => res.status(400).json(err));
   },
+
+  //add friend
+  addFriend({ params }, res) {
+    User.findOneAndUpdate(
+      {_id: params.id },
+      {$push: { friends: params.friendsId } },
+      {new: true, runValidators: true }
+    )
+      .then((dbUserData) => res.json(dbUserData))
+      .catch((err) => res.status(400).json(err));
+  },
+
+  //remove friend
+  removeFriend({ params }, res) {
+    User.findOneAndUpdate(
+      { _id: params.id },
+      { $pull: { friends: params.friendsId } },
+      { new: true }
+    )
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json;
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.status(400).json(err));
+  },
+
+
 
 
 
