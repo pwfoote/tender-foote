@@ -60,9 +60,9 @@ const thoughtSchema = new Schema(
 );
 
 // get total count of reactions and replies on retrieval
- thoughtSchema.virtual("reactionsCount").get(function () {
-  return this.reactions.length;
- });
+//  thoughtSchema.virtual("reactionsCount").get(function () {
+//   return this.reactions.length;
+//  });
 
 const Thought = model('Thought', thoughtSchema);
 
